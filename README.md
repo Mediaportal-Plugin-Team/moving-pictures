@@ -1,4 +1,12 @@
 # Moving Pictures
+
+[![MP AnyCPU](https://img.shields.io/badge/MP-AnyCPU-blue?logo=windows&logoColor=white)](https://github.com/Mediaportal-Plugin-Team/moving-pictures/releases)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Mediaportal-Plugin-Team/moving-pictures/build.yml?logo=github)](https://github.com/Mediaportal-Plugin-Team/moving-pictures/actions)
+[![GitHub](https://img.shields.io/github/license/Mediaportal-Plugin-Team/moving-pictures?color=blue)](https://github.com/Mediaportal-Plugin-Team/moving-pictures/blob/master/LICENSE)
+[![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/Mediaportal-Plugin-Team/moving-pictures?include_prereleases)](https://github.com/Mediaportal-Plugin-Team/moving-pictures/releases)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/downloads-pre/Mediaportal-Plugin-Team/moving-pictures/latest/total?label=release@downloads)](https://github.com/Mediaportal-Plugin-Team/moving-pictures/releases)
+[![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
+
 Moving Pictures is a movies plug-in for the MediaPortal media center application. The goal of the plug-in is to create a very focused and refined experience that requires minimal user interaction. The plug-in emphasizes usability and ease of use in managing a movie collection consisting of ripped DVDs, and movies reencoded in common video formats supported by MediaPortal.
 
 The plug-in's intended focus is exclusively on movie content. It is not designed to manage clips, music videos, TV shows, or any other type of video content. This narrow focus will allow for a much more refined interface than something like the MyVideo interface included in the standard MediaPortal distribution. This focus is based after the similar focus and success of the TVSeries plug-in for MediaPortal.
