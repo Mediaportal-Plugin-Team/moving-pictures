@@ -5,7 +5,7 @@
       <description>Video resolution</description>
       <type>image</type>
       <id>0</id>
-      <posX>1118</posX>
+      <posX>1125</posX>
       <posY>862</posY>
       <width>92</width>
       <height>60</height>
@@ -47,7 +47,7 @@
       <description>Audio channels</description>
       <type>image</type>
       <id>0</id>
-      <posX>1363</posX>
+      <posX>1370</posX>
       <posY>862</posY>
       <width>92</width>
       <height>60</height>
@@ -61,7 +61,7 @@
       <description>Aspect ratio</description>
       <type>image</type>
       <id>0</id>
-      <posX>1433</posX>
+      <posX>1453</posX>
       <posY>862</posY>
       <width>92</width>
       <height>60</height>
@@ -75,10 +75,10 @@
       <description>Subtitle</description>
       <type>image</type>
       <id>0</id>
-      <posX>1523</posX>
-      <posY>872</posY>
-      <width>39</width>
-      <height>40</height>
+      <posX>1511</posX>
+      <posY>865</posY>
+      <width>64</width>
+      <height>56</height>
       <texture>Logos\#MovingPictures.LocalMedia.Subtitles.png</texture>
       <visible>!Control.IsVisible(50)+ !Control.IsVisible(51) + !Control.HasFocus(10001)+ !Control.HasFocus(10002) + !Control.HasFocus(10005)</visible>
       <animation effect="fade" time="250">Visible</animation>
