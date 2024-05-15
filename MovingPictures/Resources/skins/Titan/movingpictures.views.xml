@@ -18,6 +18,96 @@
                  time="250">WindowClose</animation>
     </control>
 
+	<!-- ClearArt -->
+   	<control>
+   		<description>ClearArt</description>
+   		<type>image</type>
+   		<id>159357</id>
+   		<posX>1550</posX>
+   		<posY>150</posY>
+   		<width>250</width>
+   		<height>140</height>
+		<texture>#fanarthandler.movie.clearart.selected</texture>
+		<visible>![facadeview.filmstrip|facadeview.coverflow]+Control.IsVisible(50)</visible>
+		<animation effect="fade" time="500">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+   	</control>  
+
+   	<control>
+   		<description>ClearArt</description>
+   		<type>image</type>
+   		<id>159358</id>
+   		<posX>1550</posX>
+   		<posY>440</posY>
+   		<width>250</width>
+   		<height>140</height>
+		<texture>#fanarthandler.movie.clearart.selected</texture>
+   		<visible>[facadeview.filmstrip|facadeview.coverflow]+Control.IsVisible(50)</visible>
+		<animation effect="fade" time="500">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+   	</control>  
+
+   	<control>
+   		<description>Collection ClearArt</description>
+   		<type>image</type>
+   		<id>0</id>
+   		<posX>1550</posX>
+   		<posY>150</posY>
+   		<width>250</width>
+   		<height>140</height>
+		<texture>..\..\..\Thumbs\ClearArt\MoviesCollections\#(string.getfilename(string.trim(#selecteditem))).png</texture>
+		<visible>![facadeview.filmstrip|facadeview.coverflow]+Control.IsVisible(50)+string.equals(#MovingPictures.SelectedMovie.imdb_id,)</visible>
+		<animation effect="fade" time="500">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+   	</control>  
+
+    <!-- CDArt -->
+    <control>
+        <description>Disc Image</description>
+        <type>image</type>
+        <id>357951</id>
+        <posX>250</posX>
+        <posY>400</posY>
+        <width>500</width>
+        <height>500</height>
+        <texture>#fanarthandler.movie.cd.selected</texture>
+        <keepaspectratio>yes</keepaspectratio>
+        <visible>facadeview.list + Control.IsVisible(50)</visible>
+        <animation effect="fade" time="100">WindowOpen</animation>
+        <animation effect="fade" time="100">WindowClose</animation>
+        <animation effect="fade" time="1000" start= "100" end= "25" condition="Control.HasFocus(50)">conditional</animation>
+        <animation effect="rotate" time="1000" start= "0" end= "-50" condition="Control.HasFocus(50)">conditional</animation>
+        <animation effect="rotate" time="5000" end= "-360" condition="Player.HasMedia" loop="true">conditional</animation>
+    </control>
+
+	<!-- ClearLogo -->
+   	<control>
+   		<description>ClearLogo</description>
+   		<type>image</type>
+   		<id>0</id>
+   		<posX>1550</posX>
+   		<posY>150</posY>
+   		<width>250</width>
+   		<height>140</height>
+		<texture>#fanarthandler.movie.clearlogo.selected</texture>
+		<visible>![facadeview.filmstrip|facadeview.coverflow]+Control.IsVisible(50)+!control.hasthumb(159357)</visible>
+		<animation effect="fade" time="500">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+   	</control>  
+
+   	<control>
+   		<description>ClearLogo</description>
+   		<type>image</type>
+   		<id>0</id>
+   		<posX>1550</posX>
+   		<posY>440</posY>
+   		<width>250</width>
+   		<height>140</height>
+		<texture>#fanarthandler.movie.clearlogo.selected</texture>
+		<visible>[facadeview.filmstrip|facadeview.coverflow]+Control.IsVisible(50)+!control.hasthumb(159358)</visible>
+		<animation effect="fade" time="500">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+   	</control>  
 
     <!--            :: LISTVIEW ::            -->
 
@@ -181,7 +271,7 @@
       <id>0</id>
       <posX>798</posX>
       <posY>419</posY>
-      <label>#MovingPictures.SelectedMovie.runtime.totalminutes min</label>
+      <label>#MovingPictures.SelectedMovie.extra.runtime.short:#MovingPictures.SelectedMovie.runtime.second min</label>
       <visible>facadeview.list+Control.IsVisible(50)</visible>
       <animation effect="fade"
                  time="250">WindowOpen</animation>
@@ -694,6 +784,61 @@
                  time="250">WindowOpen</animation>
       <animation effect="fade"
                  time="250">WindowClose</animation>
+    </control>
+
+    <!-- Studio --> 
+    <control>
+  	  <description>Studios Logos</description>
+      <id>7650567</id>
+      <type>image</type>
+      <texture>#fanarthandler.movie.studios.selected.all</texture>
+      <posX>123</posX>
+      <posY>925</posY>
+      <width>379</width>
+      <height>60</height>
+      <align>center</align>
+      <valign>top</valign>
+      <keepaspectratio>yes</keepaspectratio>
+      <shouldCache>true</shouldCache>
+	  <visible>![facadeview.filmstrip|facadeview.coverflow]+Control.IsVisible(50)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+	  <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control>
+  	  <description>Studio Logo</description>
+      <type>image</type>
+      <id>5550555</id>
+   	  <posX>775</posX>
+      <posY>30</posY>
+      <width>379</width>
+      <height>65</height>
+      <align>center</align>
+      <valign>top</valign>
+      <keepaspectratio>yes</keepaspectratio>
+      <shouldCache>true</shouldCache>
+      <texture>#fanarthandler.movie.studios.selected.all</texture>
+	  <visible>[facadeview.filmstrip|facadeview.coverflow]+Control.IsVisible(50)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+	  <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control>
+  	  <description>Genres Logo</description>
+      <type>image</type>
+      <id>0</id>
+   	  <posX>85</posX>
+      <posY>360</posY>
+      <width>30</width>
+      <height>560</height>
+      <align>center</align>
+      <valign>bottom</valign>
+      <keepaspectratio>yes</keepaspectratio>
+      <shouldCache>true</shouldCache>
+      <texture>#fanarthandler.movie.genres.selected.verticalall</texture>
+	  <visible>![facadeview.filmstrip|facadeview.coverflow]+Control.IsVisible(50)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+	  <animation effect="fade" time="250">WindowClose</animation>
     </control>
   </controls>
 </window>

@@ -121,10 +121,20 @@ multiple view modes.
       <width>68</width>
       <height>60</height>
       <texture>icon_movies.png</texture>
-      <visible>control.isvisible(50)|control.isvisible(51)</visible>
+      <visible>!Control.HasFocus(10005)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
+    <control>
+      <description>DUMMY Visible Control common.time override</description>
+      <type>label</type>
+      <id>3338333</id>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1</width>
+      <visible>!Control.HasFocus(10005)</visible>
+    </control>
+
     <import>common.time.xml</import>
     <import>movingpictures.hiddenmenu.xml</import>
     <!--Views-->
