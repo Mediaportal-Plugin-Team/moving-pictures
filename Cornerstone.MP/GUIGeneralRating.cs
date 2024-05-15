@@ -19,8 +19,8 @@ namespace Cornerstone.MP {
 
         [SkinControlAttribute(6)]
         protected GUILabelControl lblText = null;
-		[SkinControlAttribute(7)]
-		protected GUILabelControl lblRating = null;
+		    [SkinControlAttribute(7)]
+		    protected GUILabelControl lblRating = null;
         [SkinControlAttribute(100)]
         protected GUICheckMarkControl btnStar1 = null;
         [SkinControlAttribute(101)]
