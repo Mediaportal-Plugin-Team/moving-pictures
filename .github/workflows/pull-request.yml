@@ -26,6 +26,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Nuget
+        run: |
+          nuget restore
+        shell: cmd
+
       - name: Build
         run: |
           build.cmd < nul
