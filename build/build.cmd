@@ -1,7 +1,15 @@
-@echo off
-cls
+@ECHO OFF
+CLS
+
+IF NOT "%1"=="" (
+  SET ARCH=%1
+) ELSE (
+  SET ARCH=x86
+)
+
 Title Building Moving Pictures (RELEASE)
-cd ..
+
+CD ..
 
 REM Select program path based on current machine environment
 SET progpath=%ProgramFiles%
@@ -14,8 +22,8 @@ IF NOT EXIST "%MSBUILD_PATH%" SET MSBUILD_PATH=%progpath%\Microsoft Visual Studi
 IF NOT EXIST "%MSBUILD_PATH%" SET MSBUILD_PATH=%progpath%\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\bin\MSBuild.exe
 
 :: Build
-"%MSBUILD_PATH%" /target:Rebuild /property:Configuration=RELEASE /fl /flp:logfile=MovingPictures.log;verbosity=diagnostic "Moving Pictures.sln"
+"%MSBUILD_PATH%" /target:Rebuild /property:Configuration=RELEASE /property:Platform=%ARCH% /fl /flp:logfile=MovingPictures.log;verbosity=diagnostic "Moving Pictures.sln"
 
-cd build
+CD build
 
-pause
+PAUSE

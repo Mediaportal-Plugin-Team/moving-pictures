@@ -41,9 +41,15 @@ jobs:
           nuget restore
         shell: cmd
 
-      - name: Build
+      - name: Build (x86)
         run: |
-          build.cmd < nul
+          build.cmd x86 < nul
+        working-directory: ${{ github.workspace }}\build
+        shell: cmd
+
+      - name: Build (x64)
+        run: |
+          build.cmd x64 < nul
         working-directory: ${{ github.workspace }}\build
         shell: cmd
 

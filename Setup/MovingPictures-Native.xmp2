@@ -38,11 +38,18 @@
               <ZipFileName>Installer{CopyFile}\{7c63b4a5-d73e-4c64-8a7a-a464e972d0ab}-NLog.dll</ZipFileName>
               <DestinationFilename>%Base%\NLog.dll</DestinationFilename>
             </FileItem>
-            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="PlatformTarget_x64">
               <Param1 />
               <UpdateOption>OverwriteIfOlder</UpdateOption>
-              <LocalFileName>..\External\ConfigLauncher\.NET 4\Moving Pictures Config.exe</LocalFileName>
+              <LocalFileName>..\Testing\MovingPicturesConfigLauncher\bin\x64\Release\Moving Pictures Config.exe</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{0c9b9bde-0063-4d43-9728-e2273f32f904}-Moving Pictures Config.exe</ZipFileName>
+              <DestinationFilename>%Base%\Moving Pictures Config.exe</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="PlatformTarget_x86">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\Testing\MovingPicturesConfigLauncher\bin\x86\Release\Moving Pictures Config.exe</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{54a19fa6-e70f-40a8-882c-6665a3ea122e}-Moving Pictures Config.exe</ZipFileName>
               <DestinationFilename>%Base%\Moving Pictures Config.exe</DestinationFilename>
             </FileItem>
           </Items>
@@ -357,7 +364,7 @@
         <ParentGroup />
         <DisplayName>Titan Skin</DisplayName>
         <DefaulChecked>true</DefaulChecked>
-        <Description>Titan Skin (16:9 / 1080P) for MovingPictures. Originally part of TitanExtended.</Description>
+        <Description>Titan Skin (16:9 / 1080P) for MovingPictures</Description>
         <Files>
           <Items>
             <FileItem InstallType="CopyFile" SystemFile="false" Modified="false" Condition="None">
@@ -2725,10 +2732,10 @@ public class Script
         <Type>MediaPortal</Type>
         <Id />
         <MinVersion>
-          <Major>*</Major>
-          <Minor>*</Minor>
-          <Build>*</Build>
-          <Revision>*</Revision>
+          <Major>1</Major>
+          <Minor>32</Minor>
+          <Build>100</Build>
+          <Revision>0</Revision>
         </MinVersion>
         <MaxVersion>
           <Major>*</Major>
@@ -2737,7 +2744,7 @@ public class Script
           <Revision>*</Revision>
         </MaxVersion>
         <WarnOnly>false</WarnOnly>
-        <Message />
+        <Message>Requires MediaPortal 1.32.100.0 or higher!</Message>
         <Name>MediaPortal</Name>
         <Condition>None</Condition>
       </DependencyItem>
@@ -2764,7 +2771,34 @@ public class Script
     </Items>
   </Dependencies>
   <PluginDependencies>
-    <Items />
+    <Items>
+      <PluginDependencyItem AssemblyName="Cornerstone.MP.dll">
+        <CompatibleVersion>
+          <Items>
+            <CompatibleVersionItem>
+              <MinRequiredVersion>1.23.0.0</MinRequiredVersion>
+              <DesignedForVersion>1.23.0.0</DesignedForVersion>
+            </CompatibleVersionItem>
+          </Items>
+        </CompatibleVersion>
+        <SubSystemsUsed>
+          <Items />
+        </SubSystemsUsed>
+      </PluginDependencyItem>
+      <PluginDependencyItem AssemblyName="MovingPictures.dll">
+        <CompatibleVersion>
+          <Items>
+            <CompatibleVersionItem>
+              <MinRequiredVersion>1.23.0.0</MinRequiredVersion>
+              <DesignedForVersion>1.23.0.0</DesignedForVersion>
+            </CompatibleVersionItem>
+          </Items>
+        </CompatibleVersion>
+        <SubSystemsUsed>
+          <Items />
+        </SubSystemsUsed>
+      </PluginDependencyItem>
+    </Items>
   </PluginDependencies>
   <GeneralInfo>
     <Name>Moving Pictures</Name>
@@ -2776,11 +2810,11 @@ public class Script
     <Version>
       <Major>1</Major>
       <Minor>8</Minor>
-      <Build>4</Build>
+      <Build>5</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Moving Pictures is a movie management plug-in that focuses on ease of use and flexibility. Point it to your movies collection and Moving Pictures will automatically load media rich details about your movies as quickly as possible with as little user interaction as possible. Once imported you can browse your collection via an easy to use but highly customizable interface.</ExtensionDescription>
-    <VersionDescription>Update Titan skin</VersionDescription>
+    <VersionDescription>Update Titan skin (Added FanartHandler support)</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>https://github.com/Mediaportal-Plugin-Team/moving-pictures/releases/download/v[Version]/moving-pictures-[Version].mpe1</OnlineLocation>
     <ReleaseDate>2024-05-15T19:04:46</ReleaseDate>
@@ -2852,8 +2886,15 @@ public class Script
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
-        <LocalFileName>..\External\ConfigLauncher\.NET 4\Moving Pictures Config.exe</LocalFileName>
+        <LocalFileName>..\Testing\MovingPicturesConfigLauncher\bin\x64\Release\Moving Pictures Config.exe</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{0c9b9bde-0063-4d43-9728-e2273f32f904}-Moving Pictures Config.exe</ZipFileName>
+        <DestinationFilename>%Base%\Moving Pictures Config.exe</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true" Condition="None">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\Testing\MovingPicturesConfigLauncher\bin\x86\Release\Moving Pictures Config.exe</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{54a19fa6-e70f-40a8-882c-6665a3ea122e}-Moving Pictures Config.exe</ZipFileName>
         <DestinationFilename>%Base%\Moving Pictures Config.exe</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false" Condition="None">
