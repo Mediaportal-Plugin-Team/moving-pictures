@@ -2806,7 +2806,7 @@ public class Script
     <Author>Moving Pictures Team</Author>
     <HomePage>https://github.com/damienhaynes/moving-pictures</HomePage>
     <ForumPage>http://forum.team-mediaportal.com/forums/moving-pictures.284/</ForumPage>
-    <UpdateUrl>https://raw.githubusercontent.com/damienhaynes/moving-pictures/master/Setup/update.xml</UpdateUrl>
+    <UpdateUrl>https://raw.githubusercontent.com/Mediaportal-Plugin-Team/moving-pictures/master/Setup/update.xml</UpdateUrl>
     <Version>
       <Major>1</Major>
       <Minor>9</Minor>
