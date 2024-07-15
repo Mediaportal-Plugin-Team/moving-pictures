@@ -1134,10 +1134,10 @@ public class Script
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Moving Pictures is a movie management plug-in that focuses on ease of use and flexibility. Point it to your movies collection and Moving Pictures will automatically load media rich details about your movies as quickly as possible with as little user interaction as possible. Once imported you can browse your collection via an easy to use but highly customizable interface.</ExtensionDescription>
-    <VersionDescription>Update Titan skin (reference fix)</VersionDescription>
+    <VersionDescription>Delete backdrop when using GUI to delete movie</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>https://github.com/Mediaportal-Plugin-Team/moving-pictures/releases/download/v[Version]/moving-pictures-[Version].mpe1</OnlineLocation>
-    <ReleaseDate>2024-05-19T13:13:13</ReleaseDate>
+    <ReleaseDate>2024-07-15T15:15:15</ReleaseDate>
     <Tags>movie,movies,video,moving,pictures,movingpictures,film,films</Tags>
     <PlatformCompatibility>AnyCPU</PlatformCompatibility>
     <Location>moving-pictures-[Version].mpe1</Location>
