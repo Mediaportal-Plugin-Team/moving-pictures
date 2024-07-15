@@ -1765,6 +1765,13 @@ namespace MediaPortal.Plugins.MovingPictures.MainUI {
                 bool deleteSuccesful = movie.DeleteFiles();
 
                 if (deleteSuccesful) {
+                    // delete backdrop
+                    string backdropFullPath = movie.BackdropFullPath.Trim();
+                    if (!string.IsNullOrEmpty(backdropFullPath))
+                    {
+                        try { System.IO.File.Delete(backdropFullPath); } catch { }
+                    }
+
                     if (browser.CurrentView == BrowserViewMode.DETAILS)
                         // return to the facade screen
                         browser.CurrentView = browser.PreviousView;
