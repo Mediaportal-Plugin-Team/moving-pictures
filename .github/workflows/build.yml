@@ -32,7 +32,7 @@ jobs:
           vs-version: 16.11
 
       - name: Git Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -42,7 +42,7 @@ jobs:
         shell: cmd
 
       - name: Git Checkout / MPE / XPath
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: Mediaportal-Plugin-Team/Mediaportal-Tools
           path: Tools
@@ -81,7 +81,7 @@ jobs:
     outputs:
       changes: ${{ steps.changes.outputs.xmp }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: dorny/paths-filter@v3
         id: changes
         with:
@@ -117,7 +117,7 @@ jobs:
           key: plugin
 
       - name: Git Checkout / MPE / XPath
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: Mediaportal-Plugin-Team/Mediaportal-Tools
           path: Tools
@@ -215,7 +215,7 @@ jobs:
       changes: ${{ needs.mpe.outputs.changes }}
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
