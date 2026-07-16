@@ -894,9 +894,9 @@ public class Script
 {
     public static void Main(PackageClass packageClass, ActionItem actionItem)
     {
-        string dbPath = Path.Combine(MpeInstaller.TransformInRealPath("%Database%"), "movingpictures.db3");
+        string dbPath = Path.Combine(MpeCore.MpeInstaller.TransformInRealPath("%Database%"), "movingpictures.db3");
         if (!File.Exists(dbPath)) return;
-        string backupPath = Path.Combine(MpeInstaller.TransformInRealPath("%Database%"), "MovingPictures_Backup");
+        string backupPath = Path.Combine(MpeCore.MpeInstaller.TransformInRealPath("%Database%"), "MovingPictures_Backup");
         backupPath = Path.Combine(backupPath, DateTime.Now.ToString("yyyyMMdd_HHmmss"));
         string backupFile = Path.Combine(backupPath, "movingpictures.db3");
         try
@@ -1134,7 +1134,9 @@ public class Script
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Moving Pictures is a movie management plug-in that focuses on ease of use and flexibility. Point it to your movies collection and Moving Pictures will automatically load media rich details about your movies as quickly as possible with as little user interaction as possible. Once imported you can browse your collection via an easy to use but highly customizable interface.</ExtensionDescription>
-    <VersionDescription>Delete backdrop when using GUI to delete movie</VersionDescription>
+    <VersionDescription>* Ready for 1.39 Release
+
+* Delete backdrop when using GUI to delete movie</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>https://github.com/Mediaportal-Plugin-Team/moving-pictures/releases/download/v[Version]/moving-pictures-[Version].mpe1</OnlineLocation>
     <ReleaseDate>2024-07-15T15:15:15</ReleaseDate>
