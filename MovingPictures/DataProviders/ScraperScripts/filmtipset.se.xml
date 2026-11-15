@@ -3,7 +3,7 @@
 	<!-- These details are for display purposes only. -->
 	<name>filmtipset.se</name>
 	<author>vuego</author>
-	<description>This script pulls data from www.filmtipset.se and score + certification + language + tagline + studios + keywords + release date from imdb.com.</description>
+	<description>This script pulls data from www.filmtipset.se and score, certification, language, tagline, keywords, release date, studios and collections from themoviedb.org.</description>
 
 	<!-- 
 	These fields uniquely identify the script. The ID should never 
@@ -14,12 +14,31 @@
 	is for minor bug fix releases. Use it.
 	-->
 	<id>874987</id>
-	<version major="1" minor="6" point="9"/>
-	<published month="04" day="16" year="2020"/>
+	<version major="2" minor="1" point="0"/>
+	<published month="11" day="12" year="2026"/>
 
 	<!--
+	Changelog
+	1.7.0 Fixed Release Date, Language, Studios, Plot Keywords, Score, Matching movies on search results page 3 and 4
 	These fields are used for categorization purposes. Seperate multiple 
 	types with a pipe | character.
+	1.8.0 Fixed search and taglines, IMDb 8 number id, Will use Swedish release date if available or else the first release date
+	1.9.0 Fixed Writers, Actors, Genre, Summary, tagline, Studios, plot keywords and certification
+	1.10.0 Changed IMDb source to mobile site
+	2.0.0 Replace IMDb with Themoviedb
+	2.1.0 Fixed Themoviedb API source, popularity. Added Studios, Collections.
+	
+	Certification:
+	"Btl", meaning: "All ages."
+	"7", meaning: "Children under the age of 7, who are accompanied by an adult (a person aged 18 or over), are admitted to films that have been passed for children from the age of 7."
+	"11", meaning: "Children over the age of 7, who are accompanied by an adult, are admitted to films that have been passed for children from the age of 11."
+	"15", meaning: "Children over the age of 7, who are accompanied by an adult, are admitted to films that have been passed for children from the age of 11. Updated on March 1, 2017."
+	"NR", meaning: "No rating information."
+	
+	// NOTE: To other developers creating other applications, using this code as a base
+	//       or as a reference. PLEASE get your own API key. Do not reuse the one listed here.
+	//       It is intended for Moving Pictures use ONLY. API keys are free and easy to apply
+	//       for. Visit this url: https://developer.themoviedb.org/docs/faq
 	-->
 	<type>MovieDetailsFetcher</type>
 	<language>sv</language>
@@ -32,7 +51,7 @@
 		<!-- Regular Expressions -->
 		<set name="rx_search_results_block">
 			<![CDATA[
-			</th></tr><tr><td><a href=".*?"><strong>(.*?)</div><br/><h3>Sk.despelare/person</h3>
+			</th></tr><tr><td><a href=".*?"><strong>(.*?)<h3>Sk.despelare/crew</h3>
 			]]>
 		</set>
 		<set name="rx_search_results">
@@ -42,7 +61,7 @@
 		</set>
 		<set name="rx_imdb">
 			<![CDATA[
-			tt\d*(\d{7})"
+			tt0{0,2}(\d{7,8})"
 			]]>
 		</set>
 		<set name="rx_alternate_title_block">
@@ -57,7 +76,7 @@
 		</set>
 		<set name="rx_popularity">
 			<![CDATA[
-			Betygsantal<\/td>[\w\W]+<td>(\d+)<\/td>
+			Betygsantal<br\/><strong>(\d+) st<\/strong>
 			]]>
 		</set>
 		<set name="rx_nextpage">
@@ -197,7 +216,7 @@
 
 			<loop name="search_results_verified" on="search_results_block">
 				<parse name="movie_details" input="${search_results_verified}" regex="${rx_search_results}" />
-				<set name="offset" value="50"/>
+				<set name="offset" value="75"/>
 				<loop name='curr_details' on='movie_details' limit="25">
 					<add name="counter" value1="${count}" value2="${offset}" />
 					<set name="movie[${counter}].title" value="${curr_details[1]}" />
@@ -228,7 +247,7 @@
 
 			<loop name="search_results_verified" on="search_results_block">
 				<parse name="movie_details" input="${search_results_verified}" regex="${rx_search_results}" />
-				<set name="offset" value="50"/>
+				<set name="offset" value="100"/>
 				<loop name='curr_details' on='movie_details' limit="25">
 					<add name="counter" value1="${count}" value2="${offset}" />
 					<set name="movie[${counter}].title" value="${curr_details[1]}" />
@@ -257,11 +276,11 @@
 
 	<action name="get_details">
 		<!-- if we have a site id we can continue -->
-			<!-- use IMDbScore value to enable IMDb score instead of filmtipset's grade -->
-			<set name="IMDbScore" value="true" />
+			<!-- use TMDBScore value to enable TMDB score instead of filmtipset's grade -->
+			<set name="TMDBScore" value="true" />
 
 			<retrieve name="details_page" url="${movie.details_url}"/>
-
+			
 			<set name="rx_directors_block">
 				<![CDATA[
 				<td class="label">Regissör[\w|\W]*?Manus<\/td>
@@ -274,17 +293,17 @@
 			</set>
 			<set name="rx_writers_block">
 				<![CDATA[
-				<td class="label">Manus[\w|\W]*?Genre<\/td>
+				<td class="label">Manus[\w|\W]*?<\/tr>
 				]]>
 			</set>
 			<set name="rx_genre_block">
 				<![CDATA[
-				<td class="label">Genre[\w|\W]*?Skådespelare<\/td>
+				<a href="\/genre\/.*?">[\w|\W]*?<\/span>
 				]]>
 			</set>
 			<set name="rx_actors_block">
 				<![CDATA[
-				<td class="label" valign="top">Skådespelare[\w|\W]*?Betygsätt<\/td>
+				<td class="label" valign="top">Skådespelare[\w|\W]*?<\/tr>
 				]]>
 			</set>
 			<set name="rx_runtime">
@@ -292,63 +311,94 @@
 				 <i class="fa fa-clock-o"><\/i> (\d+)min<\/span>
 				]]>
 			</set>
-
 			<set name="rx_score">
 				<![CDATA[
 				<span class="score">(.+?)<\/span><br\/>av 5<\/span>
 				]]>
 			</set>
+			<set name="rx_popularity">
+				<![CDATA[
+				Betygsantal<br\/><strong>(\d+) st<\/strong>
+				]]>
+			</set>
 			<set name="rx_plot">
 				<![CDATA[
-				nofollow noindex">IMDb<\/a><\/span><br\/>[\w\W]*?<p>(.*?)<\/p>
+				<p class="moviedescription">([\w|\W]*?)<\/p>
 				]]>
 			</set>
 			<set name="rx_imdb">
 				<![CDATA[
-				tt\d*(\d{7})"
+				tt0{0,2}(\d{7,8})"
+				]]>
+			</set>
+
+			<set name="rx_certification_any">
+				<![CDATA[
+				"certification":"(NR|15|11|7|Btl)"
+				]]>
+			</set>
+			<set name="rx_certification_se">
+				<![CDATA[
+				"SE","release_dates":\[{"certification":"(NR|15|11|7|Btl)"
 				]]>
 			</set>
 			<set name="rx_tagline">
 				<![CDATA[
-				<h5>Tagline.</h5>[^>]+>[^\r]?(?<movieTagline>[^<]+)|Tagline[s]?:</h4>[\s\f\r]*(?<movieTagline>[^<]+)
+				"tagline":"(.*?)"
 				]]>
 			</set>
-			<set name="rx_imdb_votes">
+			<set name="rx_tmdb_score">
 				<![CDATA[
-				<span itemprop="ratingValue">(\d.\d)</span>
+				"vote_average":(\d+.\d+),
 				]]>
 			</set>
-			<set name="rx_language_block">
+			<set name="rx_tmdb_movie_id">
 				<![CDATA[
-				>Language:<\/h4>[\w\W]+>Release Date:</h4>
+				"id":(\d+),
+				]]>
+			</set>
+			<set name="rx_tmdb_popularity">
+				<![CDATA[
+				"vote_count":(\d+)}
 				]]>
 			</set>
 			<set name="rx_language">
 				<![CDATA[
-				tt_dt_dt"[\w\W]>(.*?)<\/a>
+				"english_name":"(.*?)"
 				]]>
 			</set>
 			<set name="rx_studios_block">
 				<![CDATA[
-				<h4 class="inline">Production Co:</h4>\s*(?<movieStudios>(?:[,]*\s*<span itemprop="creator"[^>]+>\s*)?(?:[^<]*<a[^>]+href="[^"]+"[^>]*>(?:<span[^>]+>)?[^<]+(?:</span></a></span>|</a>)))*
+				"production_companies":\[.+?\]
 				]]>
 			</set>
 			<set name="rx_studios">
 				<![CDATA[
-				<a[^>]+href="[^"]+"[^>]*>(?:<span[^>]+>)?(?<movieStudios>[^<]+)(?:</span>)?</a>
+				"name":"([\w ]+)"
+				]]>
+			</set>
+			<set name="rx_collection">
+				<![CDATA[
+				"belongs_to_collection":{"id":\d+,"name":"(.*?)"
 				]]>
 			</set>
 			<set name="rx_release_date">
 				<![CDATA[
-				<h4 class="inline">Release Date:</h4>\s*(?<releaseDate>\d{1,2}\s*[^\s]+\s*\d{4})
+				"release_date":"(\d+-\d+-\d+)"
+				]]>
+			</set>
+			<set name="rx_plotkeywords">
+				<![CDATA[
+				"name":"(.*?)"
 				]]>
 			</set>
 
-			<set name="rx_plotkeywords">
-				<![CDATA[
-				<h4[^>]+>Plot Keywords:</h4>\s*(?<moviePlotKeywords>.+?)(?:&nbsp;|<nobr>|See more|</div>)
-				]]>
-			</set>
+			<!-- TMDB prepare -->
+			<retrieve name="tmdb_find" url="https://api.themoviedb.org/3/find/${movie.imdb_id}?api_key=cc25933c4094ca50635f94574491f320&amp;external_source=imdb_id&amp;language=sv-SE"/>
+			<parse name="tmdb_movie_id" input="${tmdb_find}" regex='${rx_tmdb_movie_id}'/>
+			<retrieve name="tmdb_page" url="https://api.themoviedb.org/3/movie/${tmdb_movie_id[0][0]}?api_key=cc25933c4094ca50635f94574491f320&amp;language=sv-SE"/>
+			<retrieve name="tmdb_release_dates" url="https://api.themoviedb.org/3/movie/${tmdb_movie_id[0][0]}/release_dates?api_key=cc25933c4094ca50635f94574491f320&amp;language=sv-SE"/>
+			<retrieve name="tmdb_keywords" url="https://api.themoviedb.org/3/movie/${tmdb_movie_id[0][0]}/keywords?api_key=cc25933c4094ca50635f94574491f320&amp;language=sv-SE"/>
 
 			<!-- Directors -->
 			<parse name="directors_block" input="${details_page}" regex='${rx_directors_block}'/>
@@ -391,6 +441,10 @@
 			<multiply name='scoretot' value1='${score_block[0][0]}' value2='2' />
 			<set name='movie.score' value='${scoretot}'/>
 
+			<!-- Popularity -->
+			<parse name="popularity" input="${details_page}" regex='${rx_popularity}'/>
+			<set name='movie.popularity' value='${popularity[0][0]}'/>
+
 			<!-- Plot Summary -->
 			<parse name="summary" input="${details_page}" regex="${rx_plot}"/>
 			<replace name="summary_clean" input="${summary[0][0]}" pattern="\s+" with=" " />
@@ -401,53 +455,54 @@
 			<set name='movie.imdb_id' value='tt${imdb[0][0]}'/>
 
 			<!-- Certification -->
-			<retrieve name="imdb_cert" url="http://www.imdb.com/title/${movie.imdb_id}/parentalguide#certification"/>
-			<parse name="certification" input="${imdb_cert}" regex='&gt;Sweden:((?:Banned)|(?:11)|(?:15)|(?:18)|(?:7)|(?:Btl))&lt;/a&gt;'/>
-			<set name='movie.certification' value='${certification[0][0]:htmldecode}'/>
+			<!-- Look for the Swedish certification as the first option or else any other country's compatible certification -->
+			<parse name="certification" input="${tmdb_release_dates}" regex='${rx_certification_any}'/>
+			<set name='movie.certification' value='${certification[0][0]}'/>
+			<parse name="certification" input="${tmdb_release_dates}" regex='${rx_certification_se}'/>
+			<set name='movie.certification' value='${certification[0][0]}'/>
 
 			<!-- Language -->
-			<retrieve name="imdb_page" url="http://www.imdb.com/title/${movie.imdb_id}"/>
-			<parse name="language_block" input="${imdb_page}" regex='${rx_language_block}' />
-			<parse name="language" input="${language_block}" regex='${rx_language}' />
-			<set name='movie.language' value=''/>
+			<parse name="language" input="${tmdb_page}" regex='${rx_language}' />
+			<set name='movie.languages' value=''/>
 			<loop name='currLanguage' on='language'>
 				<set name='movie.language' value='${movie.language}|${currLanguage[0]}'/>
 			</loop>
 
 			<!-- Tagline -->
-			<parse name="tagline" input="${imdb_page}" regex='${rx_tagline}'/>
+			<parse name="tagline" input="${tmdb_page}" regex='${rx_tagline}'/>
 			<set name='movie.tagline' value='${tagline[0][0]:htmldecode}'/>
 
 			<!-- Score and Popularity -->
-			<if test="${IMDbScore}=true">
-				<parse name="imdb_votes" input="${imdb_page}" regex="${rx_imdb_votes}" />
-				<set name="movie.score" value="${imdb_votes[0][0]:htmldecode}" />
-				<replace name="imdb_votes_clean" input="${imdb_votes[0][0]:htmldecode}" pattern=',' with='.' />
-				<set name="movie.popularity" value="${imdb_votes_clean}" />
+			<if test="${TMDBScore}=true">
+				<parse name="tmdb_score" input="${tmdb_page}" regex="${rx_tmdb_score}" />
+				<set name="movie.score" value="${tmdb_score[0][0]}" />
+				<parse name="tmdb_popularity" input="${tmdb_page}" regex="${rx_tmdb_popularity}" />
+				<replace name="tmdb_popularity" input="${tmdb_popularity[0][0]}" pattern=" " with="" />
+				<set name="movie.popularity" value="${tmdb_popularity}" />
 			</if>
 
-			<!-- Studios -->
-			<parse name="studios_block" input="${imdb_page}" regex="${rx_studios_block}" />
+			<!-- Studios  -->
+			<parse name="studios_block" input="${tmdb_page}" regex="${rx_studios_block}" />
 			<parse name="studios" input="${studios_block}" regex="${rx_studios}" />
 			<set name="movie.studios" value="|" />
 			<loop name="currStudio" on="studios" limit="10">
 				<set name="movie.studios" value="${movie.studios}${currStudio[0]:htmldecode}|" />
 			</loop>
 
+			<!-- Collection -->
+			<parse name="collection" input="${tmdb_page}" regex="${rx_collection}" />
+			<set name="movie.collections" value="${collection[0][0]}" />
+
 			<!-- Release Date -->
-			<parse name="release_date" input="${imdb_page}" regex="${rx_release_date}" />
-			<!-- If IMDb.com does not have a release date, then we will use the release year -->
-			<if test="${release_date[0][0]}=">
-				<if test="${movie.year}!=">
-					<set name="release_date[0][0]" value="1/1/${movie.year}" />
-				</if>
-			</if>
+			<parse name="release_date" input="${tmdb_page}" regex="${rx_release_date}" />
 			<set name="movie.release_date" value="${release_date[0][0]}" />
 
 			<!-- Plot Keywords -->
-			<parse name="plotkeywords" input="${imdb_page}" regex="${rx_plotkeywords}" />
-			<set name="plotkeywords_clean" value="|${plotkeywords[0][0]:striptags}|" />
-			<replace name="movie.plotkeywords" input="${plotkeywords_clean:htmldecode}" pattern="\s*[|]+\s*" with="|" />
+			<parse name="plotkeywords" input="${tmdb_keywords}" regex="${rx_plotkeywords}" />
+			<set name="movie.plotkeywords" value="|" />
+			<loop name="currKeyword" on="plotkeywords" limit="100">
+				<set name="movie.plotkeywords" value="${movie.plotkeywords}${currKeyword[0]:htmldecode}|" />
+			</loop>
 
 	</action>
 
